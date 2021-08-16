@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-provider-ad/ad/internal/adschema"
+	"github.com/ncecere/terraform-provider-ufad/ad/internal/adschema"
 )
 
 func TestWriteSystemLog(t *testing.T) {

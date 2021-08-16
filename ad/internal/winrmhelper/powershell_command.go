@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/hashicorp/terraform-provider-ad/ad/internal/config"
+	"github.com/ncecere/terraform-provider-ufad/ad/internal/config"
 
 	"github.com/masterzen/winrm"
 )
