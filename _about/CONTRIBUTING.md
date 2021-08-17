@@ -24,5 +24,5 @@ make build
 This will place the provider binary in the top level of the provider directory. You can then use it with terraform by specifying the `-plugin-dir` option when running `terraform init`
 
 ```
-terraform init -plugin-dir /path/to/terraform-provider-ad
+terraform init -plugin-dir /path/to/terraform-provider-ufad
 ```

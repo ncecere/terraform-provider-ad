@@ -12,16 +12,17 @@ import (
 )
 
 type CreatePSCommandOpts struct {
-	ExecLocally     bool
-	ForceArray      bool
-	InvokeCommand   bool
-	JSONOutput      bool
-	PassCredentials bool
-	Password        string
-	Server          string
-	SkipCredPrefix  bool
-	SkipCredSuffix  bool
-	Username        string
+	ExecLocally      bool
+	ForceArray       bool
+	InvokeCommand    bool
+	JSONOutput       bool
+	PassCredentials  bool
+	Password         string
+	Server           string
+	SkipCredPrefix   bool
+	SkipCredSuffix   bool
+	Username         string
+	DomainController string
 }
 
 type PSCommand struct {
@@ -53,13 +54,26 @@ func NewPSCommand(cmds []string, opts CreatePSCommandOpts) *PSCommand {
 		}
 	}
 
-	if opts.PassCredentials && opts.Server != "" {
+	if opts.DomainController != "" {
 		switch {
 		case opts.InvokeCommand:
-			cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.Server))
+			cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.DomainController))
 		default:
-			cmds = append(cmds, fmt.Sprintf("-Server %s", opts.Server))
+			cmds = append(cmds, fmt.Sprintf("-Server %s", opts.DomainController))
 		}
+
+	}
+
+	if opts.DomainController == "" {
+		if opts.PassCredentials && opts.Server != "" {
+			switch {
+			case opts.InvokeCommand:
+				cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.Server))
+			default:
+				cmds = append(cmds, fmt.Sprintf("-Server %s", opts.Server))
+			}
+		}
+
 	}
 
 	if !opts.InvokeCommand && opts.JSONOutput {

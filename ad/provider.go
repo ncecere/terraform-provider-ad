@@ -98,6 +98,12 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("AD_WINRM_PASS_CREDENTIALS", false),
 				Description: "Pass credentials in WinRM session to create a System.Management.Automation.PSCredential. (default: false, environment variable: AD_WINRM_PASS_CREDENTIALS)",
 			},
+			"domain_controller": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("AD_KRB_DOMAIN_CONTROLLER", ""),
+				Description: "A persistant Domain Controller to connect to for Operations. (default: \"\", environment variable: AD_KRB_DOMAIN_CONTROLLER)",
+			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"ad_user":     dataSourceADUser(),

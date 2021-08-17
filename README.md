@@ -3,8 +3,8 @@
     <img src="https://cdn.rawgit.com/hashicorp/terraform-website/master/content/source/assets/images/logo-hashicorp.svg" alt="Terraform logo" align="right" height="50" />
 </a>
 
-![Status: Tech Preview](https://img.shields.io/badge/status-experimental-EAAA32) [![Releases](https://img.shields.io/github/release/hashicorp/terraform-provider-ad.svg)](https://github.com/ncecere/terraform-provider-ufad/releases)
-[![LICENSE](https://img.shields.io/github/license/hashicorp/terraform-provider-ad.svg)](https://github.com/ncecere/terraform-provider-ufad/blob/main/LICENSE)
+![Status: Tech Preview](https://img.shields.io/badge/status-experimental-EAAA32) [![Releases](https://img.shields.io/github/release/hashicorp/terraform-provider-ufad.svg)](https://github.com/ncecere/terraform-provider-ufad/releases)
+[![LICENSE](https://img.shields.io/github/license/hashicorp/terraform-provider-ufad.svg)](https://github.com/ncecere/terraform-provider-ufad/blob/main/LICENSE)
 ![Unit tests](https://github.com/ncecere/terraform-provider-ufad/workflows/Unit%20tests/badge.svg)
 
 This Windows AD provider for Terraform allows you to manage users, groups and group policies in your AD installation.
