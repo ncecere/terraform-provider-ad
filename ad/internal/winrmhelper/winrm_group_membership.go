@@ -72,13 +72,14 @@ func getMembershipList(g []*GroupMember) string {
 func (g *GroupMembership) getGroupMembers(conf *config.ProviderConf) ([]*GroupMember, error) {
 	cmd := fmt.Sprintf("Get-ADGroupMember -Identity %q", g.GroupGUID)
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      true,
-		ForceArray:      true,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       true,
+		ForceArray:       true,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)
@@ -108,13 +109,14 @@ func (g *GroupMembership) bulkGroupMembersOp(conf *config.ProviderConf, operatio
 	memberList := getMembershipList(members)
 	cmd := fmt.Sprintf("%s -Identity %q %s -Confirm:$false", operation, g.GroupGUID, memberList)
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)
@@ -164,13 +166,14 @@ func (g *GroupMembership) Create(conf *config.ProviderConf) error {
 	memberList := getMembershipList(g.GroupMembers)
 	cmds := []string{fmt.Sprintf("Add-ADGroupMember -Identity %q -Members %s", g.GroupGUID, memberList)}
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand(cmds, psOpts)
 	result, err := psCmd.Run(conf)
@@ -185,26 +188,28 @@ func (g *GroupMembership) Create(conf *config.ProviderConf) error {
 
 func (g *GroupMembership) Delete(conf *config.ProviderConf) error {
 	subCmdOpt := CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
-		SkipCredPrefix:  true,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
+		SkipCredPrefix:   true,
 	}
 	subcmd := NewPSCommand([]string{fmt.Sprintf("Get-AdGroupMember %q", g.GroupGUID)}, subCmdOpt)
 	cmd := fmt.Sprintf("Remove-ADGroupMember %q -Members (%s) -Confirm:$false", g.GroupGUID, subcmd.String())
 
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)

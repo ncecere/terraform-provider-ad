@@ -382,14 +382,15 @@ func (g *GPO) loadGPOVersions() error {
 func (g *GPO) SetADGPOVersions(conf *config.ProviderConf, gpoVersion uint32) error {
 
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
-		SkipCredPrefix:  true,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
+		SkipCredPrefix:   true,
 	}
 
 	tmpCmd := fmt.Sprintf("Get-ADObject  -LDAPFilter '(&(objectClass=groupPolicyContainer)(cn={%s}))' -Properties *", g.ID)
@@ -400,14 +401,15 @@ func (g *GPO) SetADGPOVersions(conf *config.ProviderConf, gpoVersion uint32) err
 
 	cmd := strings.Join(cmds, ";")
 	psOpts = CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          "",
-		SkipCredSuffix:  true,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           "",
+		DomainController: "",
+		SkipCredSuffix:   true,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)

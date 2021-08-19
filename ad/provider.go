@@ -74,6 +74,12 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("AD_KRB_REALM", ""),
 				Description: "The name of the kerberos realm (domain) we will use for authentication. (default: \"\", environment variable: AD_KRB_REALM)",
 			},
+			"domain_controller": {
+				Type:        schema.TypeString,
+				Optional:    true,
+				DefaultFunc: schema.EnvDefaultFunc("AD_DOMAIN_CONTROLLER", ""),
+				Description: "The Persistant Domain Controller to use for application. (default: \"\", environment variable: AD_DOMAIN_CONTROLLER)",
+			},
 			"krb_conf": {
 				Type:        schema.TypeString,
 				Optional:    true,
@@ -97,12 +103,6 @@ func Provider() *schema.Provider {
 				Optional:    true,
 				DefaultFunc: schema.EnvDefaultFunc("AD_WINRM_PASS_CREDENTIALS", false),
 				Description: "Pass credentials in WinRM session to create a System.Management.Automation.PSCredential. (default: false, environment variable: AD_WINRM_PASS_CREDENTIALS)",
-			},
-			"persistant_domain_controller": {
-				Type:        schema.TypeString,
-				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("AD_PERSISTANT_DOMAIN_CONTROLLER", ""),
-				Description: "The name of the kerberos realm (domain) we will use for authentication. (default: \"\", environment variable: AD_PERSISTANT_DOMAIN_CONTROLLER)",
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{

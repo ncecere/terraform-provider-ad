@@ -100,13 +100,14 @@ func SanitiseString(key string) string {
 func SetMachineExtensionNames(conf *config.ProviderConf, gpoDN, value string) error {
 	cmd := fmt.Sprintf(`Set-ADObject -Identity "%s" -Replace @{gPCMachineExtensionNames="%s"}`, gpoDN, value)
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      false,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       false,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)

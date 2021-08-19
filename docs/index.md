@@ -109,7 +109,7 @@ provider "ad" {
   winrm_port                   = 5986
   winrm_proto                  = "https"
   winrm_pass_credentials       = true
-  persistant_domain_controller = "dc-1.YOURDOMAIN.COM"
+  domain_controller = "dc-1.YOURDOMAIN.COM"
 }
 ```
 
@@ -230,3 +230,4 @@ provider "ad" {
 - **winrm_proto** (String) The WinRM protocol we will use. (default: http, environment variable: AD_PROTO)
 - **winrm_use_ntlm** (Boolean) Use NTLM authentication. (default: false, environment variable: AD_WINRM_USE_NTLM)
 - **winrm_username** (String) The username used to authenticate to the server's WinRM service. (Environment variable: AD_USER)
+- **domain_controller** (String) The Persistant Domain Controller to use for application. (Environment variable: AD_DOMAIN_CONTROLLER)

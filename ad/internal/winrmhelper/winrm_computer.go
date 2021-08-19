@@ -44,13 +44,14 @@ func NewComputerFromHost(conf *config.ProviderConf, identity string) (*Computer,
 	}
 	defer conf.ReleaseWinRMClient(conn)
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      true,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       true,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)
@@ -90,13 +91,14 @@ func (m *Computer) Create(conf *config.ProviderConf) (string, error) {
 	}
 
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      true,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       true,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)
@@ -129,13 +131,14 @@ func (m *Computer) Update(conf *config.ProviderConf, changes map[string]interfac
 		}
 		defer conf.ReleaseWinRMClient(conn)
 		psOpts := CreatePSCommandOpts{
-			JSONOutput:      true,
-			ForceArray:      false,
-			ExecLocally:     conf.IsConnectionTypeLocal(),
-			PassCredentials: conf.IsPassCredentialsEnabled(),
-			Username:        conf.Settings.WinRMUsername,
-			Password:        conf.Settings.WinRMPassword,
-			Server:          conf.Settings.DomainName,
+			JSONOutput:       true,
+			ForceArray:       false,
+			ExecLocally:      conf.IsConnectionTypeLocal(),
+			PassCredentials:  conf.IsPassCredentialsEnabled(),
+			Username:         conf.Settings.WinRMUsername,
+			Password:         conf.Settings.WinRMPassword,
+			Server:           conf.Settings.DomainName,
+			DomainController: conf.Settings.DomainController,
 		}
 		psCmd := NewPSCommand([]string{cmd}, psOpts)
 		result, err := psCmd.Run(conf)
@@ -160,13 +163,14 @@ func (m *Computer) Update(conf *config.ProviderConf, changes map[string]interfac
 		}
 		defer conf.ReleaseWinRMClient(conn)
 		psOpts := CreatePSCommandOpts{
-			JSONOutput:      true,
-			ForceArray:      false,
-			ExecLocally:     conf.IsConnectionTypeLocal(),
-			PassCredentials: conf.IsPassCredentialsEnabled(),
-			Username:        conf.Settings.WinRMUsername,
-			Password:        conf.Settings.WinRMPassword,
-			Server:          conf.Settings.DomainName,
+			JSONOutput:       true,
+			ForceArray:       false,
+			ExecLocally:      conf.IsConnectionTypeLocal(),
+			PassCredentials:  conf.IsPassCredentialsEnabled(),
+			Username:         conf.Settings.WinRMUsername,
+			Password:         conf.Settings.WinRMPassword,
+			Server:           conf.Settings.DomainName,
+			DomainController: conf.Settings.DomainController,
 		}
 		psCmd := NewPSCommand([]string{cmd}, psOpts)
 		result, err := psCmd.Run(conf)
@@ -190,13 +194,14 @@ func (m *Computer) Delete(conf *config.ProviderConf) error {
 	}
 	defer conf.ReleaseWinRMClient(conn)
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      true,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       true,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand([]string{cmd}, psOpts)
 	result, err := psCmd.Run(conf)

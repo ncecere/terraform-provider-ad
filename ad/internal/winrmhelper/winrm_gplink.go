@@ -187,13 +187,14 @@ func GetGPLinkFromResource(d *schema.ResourceData) *GPLink {
 func GetGPLinkFromHost(conf *config.ProviderConf, gpoGUID, containerGUID string) (*GPLink, error) {
 	cmds := []string{fmt.Sprintf("Get-ADObject -filter {ObjectGUID -eq %q} -properties gplink", containerGUID)}
 	psOpts := CreatePSCommandOpts{
-		JSONOutput:      true,
-		ForceArray:      false,
-		ExecLocally:     conf.IsConnectionTypeLocal(),
-		PassCredentials: conf.IsPassCredentialsEnabled(),
-		Username:        conf.Settings.WinRMUsername,
-		Password:        conf.Settings.WinRMPassword,
-		Server:          conf.Settings.DomainName,
+		JSONOutput:       true,
+		ForceArray:       false,
+		ExecLocally:      conf.IsConnectionTypeLocal(),
+		PassCredentials:  conf.IsPassCredentialsEnabled(),
+		Username:         conf.Settings.WinRMUsername,
+		Password:         conf.Settings.WinRMPassword,
+		Server:           conf.Settings.DomainName,
+		DomainController: conf.Settings.DomainController,
 	}
 	psCmd := NewPSCommand(cmds, psOpts)
 	result, err := psCmd.Run(conf)

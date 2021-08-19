@@ -55,10 +55,11 @@ func NewConfig(d *schema.ResourceData) (*Settings, error) {
 	krbSpn := d.Get("krb_spn").(string)
 	winRMUseNTLM := d.Get("winrm_use_ntlm").(bool)
 	winRMPassCredentials := d.Get("winrm_pass_credentials").(bool)
-	domainController := d.Get("persistant_domain_controller").(string)
+	domainController := d.Get("domain_controller").(string)
 
 	cfg := &Settings{
 		DomainName:           krbRealm,
+		DomainController:     domainController,
 		WinRMHost:            winRMHost,
 		WinRMPort:            winRMPort,
 		WinRMProto:           winRMProto,
@@ -70,7 +71,6 @@ func NewConfig(d *schema.ResourceData) (*Settings, error) {
 		KrbSpn:               krbSpn,
 		WinRMUseNTLM:         winRMUseNTLM,
 		WinRMPassCredentials: winRMPassCredentials,
-		DomainController:     domainController,
 	}
 
 	return cfg, nil
