@@ -1,4 +1,4 @@
-module github.com/ncecere/terraform-provider-ufad
+module github.com/hashicorp/terraform-provider-ad
 
 go 1.16
 

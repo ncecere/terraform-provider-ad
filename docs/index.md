@@ -1,41 +1,40 @@
 ---
 layout: ""
-page_title: "Provider: UFAD (Active Directory)"
+page_title: "Provider: AD (Active Directory)"
 description: |-
-  This AD (Active Directory) provider provides resources to interact with an AD domain controller .
+  The AD (Active Directory) provider provides resources to interact with an AD domain controller .
 ---
 
-# UFAD (Active Directory) Provider
+# AD (Active Directory) Provider
 
-The UFAD (Active Directory) provider provides resources to interact with an AD domain controller.
+The AD (Active Directory) provider provides resources to interact with an AD domain controller.
 
 Requirements:
-
-- Windows Server 2012R2 or greater.
-- WinRM enabled.
+ - Windows Server 2012R2 or greater.
+ - WinRM enabled.
 
 ## Note about Kerberos Authentication
 
-This provider supports Kerberos Authentication for WinRM connections.
+Starting with version 0.4.0, this provider supports Kerberos Authentication for WinRM connections.
 The underlying library used for Kerberos authentication supports setting its configuration by parsing
 a configuration file as specified in this [page](https://web.mit.edu/kerberos/krb5-1.12/doc/admin/conf_files/krb5_conf.html).
 If a configuration file is not supplied then we will use the equivalent of the following config:
 
-```conf
+```
 [libdefaults]
    default_realm = YOURDOMAIN.COM
    dns_lookup_realm = false
    dns_lookup_kdc = false
 
 [realms]
- YOURDOMAIN.COM = {
-        kdc  =  192.168.1.122
+	YOURDOMAIN.COM = {
+        kdc 	= 	192.168.1.122
         admin_server = 192.168.1.122
         default_domain = YOURDOMAIN.COM
- }
+	}
 
 [domain_realm]
- yourdomain.com = YOURDOMAIN.COM
+	yourdomain.com = YOURDOMAIN.COM
 ```
 
 where `YOURDOMAIN.COM` is the value of the `krb_realm` setting, and 192.168.1.122 is the value of `winrm_hostname`.
@@ -44,11 +43,10 @@ Kerberos as its authentication when `krb_realm` is set.
 
 ## Double hop Authentication
 
-It is possible to point the provider to a host other than a Domain Controller and perform
+Starting with version 0.4.3 it is possible to point the provider to a host other than a Domain Controller and perform
 all the management tasks through that host. Here is an example of The provider config:
-
-```hcl
-provider "ufad" {
+```
+provider "ad" {
   winrm_hostname         = "10.0.0.1"
   winrm_username         = var.username
   winrm_password         = var.password
@@ -62,8 +60,7 @@ provider "ufad" {
 ```
 
 In this case krb5.conf would look like this:
-
-```conf
+```
 [libdefaults]
    default_realm = YOURDOMAIN.COM
    dns_lookup_realm = false
@@ -71,18 +68,19 @@ In this case krb5.conf would look like this:
 
 
 [realms]
- YOURDOMAIN.COM = {
-  kdc  =  172.16.12.109
+	YOURDOMAIN.COM = {
+		kdc 	= 	172.16.12.109
         admin_server = 172.16.12.109
-  default_domain = YOURDOMAIN.COM
- }
+		default_domain = YOURDOMAIN.COM
+	}
 
 [domain_realm]
     .kerberos.server = YOURDOMAIN.COM
- .yourdomain.com = YOURDOMAIN.COM
- yourdomain.com = YOURDOMAIN.COM
- yourdomain = YOURDOMAIN.COM
+	.yourdomain.com = YOURDOMAIN.COM
+	yourdomain.com = YOURDOMAIN.COM
+	yourdomain = YOURDOMAIN.COM
 ```
+
 
  A few things to note:
     - Double Hop Authentication is only enabled when using https
@@ -90,47 +88,6 @@ In this case krb5.conf would look like this:
     - The [AD Powershell module](https://docs.microsoft.com/en-us/powershell/module/activedirectory/?view=winserver2012r2-ps) as well as the [Group Policy Powersehll Module](https://docs.microsoft.com/en-us/powershell/module/grouppolicy/?view=windowsserver2019-ps) is expected to be installed
       on the server before running the provider.
 
-## Persistant Domain Controller
-
-As with [Double hop Authentication](#double-hop-authentication), you can also specify a specific Directory server to connect to to preform all of your actions.  This is helpful for organizations that have a lot of directory servers or where replication may be an issue.
-
-```hcl
-provider "ufad" {
-  winrm_hostname         = "10.0.0.1"
-  winrm_username         = var.username
-  winrm_password         = var.password
-  krb_realm              = "YOURDOMAIN.COM"
-  krb_conf               = "${path.module}/krb5.conf"
-  krb_spn                = "winserver1"
-  winrm_port             = 5986
-  winrm_proto            = "https"
-  winrm_pass_credentials = true
-  domain_controller      = "DOMAIN_CONTROLLER.YOURDOMAIN.COM"
-}
-```
-
-In this case krb5.conf would look like this:
-
-```conf
-[libdefaults]
-   default_realm = YOURDOMAIN.COM
-   dns_lookup_realm = false
-   dns_lookup_kdc = false
-
-
-[realms]
- YOURDOMAIN.COM = {
-  kdc  =  172.16.12.109
-        admin_server = 172.16.12.109
-  default_domain = YOURDOMAIN.COM
- }
-
-[domain_realm]
-    .kerberos.server = YOURDOMAIN.COM
- .yourdomain.com = YOURDOMAIN.COM
- yourdomain.com = YOURDOMAIN.COM
- yourdomain = YOURDOMAIN.COM
-```
 
 ## Note about Local execution (Windows only)
 
@@ -144,16 +101,15 @@ In such case, your need to put the following settings in the provider configurat
 Note: it will set to local only `if all 3 parameters are set to null`
 
 ### Example
-
 ```terraform
-provider "ufad" {
+provider "ad" {
   winrm_hostname = ""
   winrm_username = ""
   winrm_password = ""
 }
 ```
 
-## Example Usage
+ ## Example Usage
 
 ```terraform
 variable "hostname" { default = "ad.yourdomain.com" }
@@ -161,14 +117,14 @@ variable "username" { default = "user" }
 variable "password" { default = "password" }
 
 // remote using Basic authentication
-provider "ufad" {
+provider "ad" {
   winrm_hostname = var.hostname
   winrm_username = var.username
   winrm_password = var.password
 }
 
 // remote using NTLM authentication
-provider "ufad" {
+provider "ad" {
   winrm_hostname = var.hostname
   winrm_username = var.username
   winrm_password = var.password
@@ -176,7 +132,7 @@ provider "ufad" {
 }
 
 // remote using NTLM authentication and HTTPS
-provider "ufad" {
+provider "ad" {
   winrm_hostname = var.hostname
   winrm_username = var.username
   winrm_password = var.password
@@ -187,7 +143,7 @@ provider "ufad" {
 }
 
 // remote using Kerberos authentication
-provider "ufad" {
+provider "ad" {
   winrm_hostname = var.hostname
   winrm_username = var.username
   winrm_password = var.password
@@ -195,7 +151,7 @@ provider "ufad" {
 }
 
 // remote using Kerberos authentication with krb5.conf file
-provider "ufad" {
+provider "ad" {
   winrm_hostname = var.hostname
   winrm_username = var.username
   winrm_password = var.password
@@ -203,7 +159,7 @@ provider "ufad" {
 }
 
 // local (windows only)
-provider "ufad" {
+provider "ad" {
   winrm_hostname = ""
   winrm_username = ""
   winrm_password = ""

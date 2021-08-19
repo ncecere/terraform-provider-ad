@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/ncecere/terraform-provider-ufad/ad/internal/config"
+	"github.com/hashicorp/terraform-provider-ad/ad/internal/config"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -98,11 +98,11 @@ func Provider() *schema.Provider {
 				DefaultFunc: schema.EnvDefaultFunc("AD_WINRM_PASS_CREDENTIALS", false),
 				Description: "Pass credentials in WinRM session to create a System.Management.Automation.PSCredential. (default: false, environment variable: AD_WINRM_PASS_CREDENTIALS)",
 			},
-			"domain_controller": {
+			"persistant_domain_controller": {
 				Type:        schema.TypeString,
 				Optional:    true,
-				DefaultFunc: schema.EnvDefaultFunc("AD_KRB_DOMAIN_CONTROLLER", ""),
-				Description: "A persistant Domain Controller to connect to for Operations. (default: \"\", environment variable: AD_KRB_DOMAIN_CONTROLLER)",
+				DefaultFunc: schema.EnvDefaultFunc("AD_PERSISTANT_DOMAIN_CONTROLLER", ""),
+				Description: "The name of the kerberos realm (domain) we will use for authentication. (default: \"\", environment variable: AD_PERSISTANT_DOMAIN_CONTROLLER)",
 			},
 		},
 		DataSourcesMap: map[string]*schema.Resource{

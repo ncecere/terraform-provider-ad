@@ -4,11 +4,11 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/ncecere/terraform-provider-ufad/ad/internal/config"
+	"github.com/hashicorp/terraform-provider-ad/ad/internal/config"
 
 	"github.com/hashicorp/go-uuid"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/ncecere/terraform-provider-ufad/ad/internal/winrmhelper"
+	"github.com/hashicorp/terraform-provider-ad/ad/internal/winrmhelper"
 )
 
 func resourceADGPLink() *schema.Resource {

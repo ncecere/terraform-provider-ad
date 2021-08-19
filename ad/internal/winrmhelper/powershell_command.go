@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/ncecere/terraform-provider-ufad/ad/internal/config"
+	"github.com/hashicorp/terraform-provider-ad/ad/internal/config"
 
 	"github.com/masterzen/winrm"
 )
@@ -54,26 +54,22 @@ func NewPSCommand(cmds []string, opts CreatePSCommandOpts) *PSCommand {
 		}
 	}
 
-	if opts.DomainController != "" {
+	if opts.PassCredentials && opts.Server != "" && opts.DomainController != "" {
 		switch {
 		case opts.InvokeCommand:
 			cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.DomainController))
 		default:
 			cmds = append(cmds, fmt.Sprintf("-Server %s", opts.DomainController))
 		}
-
 	}
 
-	if opts.DomainController == "" {
-		if opts.PassCredentials && opts.Server != "" {
-			switch {
-			case opts.InvokeCommand:
-				cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.Server))
-			default:
-				cmds = append(cmds, fmt.Sprintf("-Server %s", opts.Server))
-			}
+	if opts.PassCredentials && opts.Server != "" && opts.DomainController == "" {
+		switch {
+		case opts.InvokeCommand:
+			cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.Server))
+		default:
+			cmds = append(cmds, fmt.Sprintf("-Server %s", opts.Server))
 		}
-
 	}
 
 	if !opts.InvokeCommand && opts.JSONOutput {
