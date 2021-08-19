@@ -54,7 +54,7 @@ func NewPSCommand(cmds []string, opts CreatePSCommandOpts) *PSCommand {
 		}
 	}
 
-	if opts.PassCredentials && opts.Server != "" && opts.DomainController != "" {
+	if opts.DomainController != "" {
 		switch {
 		case opts.InvokeCommand:
 			cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.DomainController))
@@ -63,12 +63,14 @@ func NewPSCommand(cmds []string, opts CreatePSCommandOpts) *PSCommand {
 		}
 	}
 
-	if opts.PassCredentials && opts.Server != "" && opts.DomainController == "" {
-		switch {
-		case opts.InvokeCommand:
-			cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.Server))
-		default:
-			cmds = append(cmds, fmt.Sprintf("-Server %s", opts.Server))
+	if opts.DomainController == "" {
+		if opts.PassCredentials && opts.Server != "" && opts.DomainController == "" {
+			switch {
+			case opts.InvokeCommand:
+				cmds = append(cmds, fmt.Sprintf("-Computername %s", opts.Server))
+			default:
+				cmds = append(cmds, fmt.Sprintf("-Server %s", opts.Server))
+			}
 		}
 	}
 
